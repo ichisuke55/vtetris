@@ -10,7 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/google-apps-script": "^1.0.56"
+    "@types/google-apps-script": "^1.0.56",
+    "docsify-cli": "^4.4.4"
   },
   "devDependencies": {
     "eslint": "^8.27.0"
