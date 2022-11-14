@@ -377,7 +377,8 @@
 
         if (tetromino) {
           // テトロミノを35フレームで落下させる
-          if (++dropCount > 35) {
+          if (++dropCount >= 35) {
+            console.log(dropCount);
             tetromino.row++;
             dropCount = 0;
 
