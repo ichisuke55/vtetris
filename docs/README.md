@@ -20,14 +20,12 @@ CoderDojo @田町で利用する、ブロックが落ちてくるゲームに関
 
 ### 詳細仕様
 
-#### フィールドの大きさ
+#### フィールド
 
 フィールドの大きさは 20 行 × 10 列とする  
 上から落ちてくる次のブロックを描画するために、22 行目まで描画する
 
-#### フィールドの描画
-
-##### Canvas について
+##### Canvas
 
 HTML の canvas 要素と JavaScript の Canvas API を使うことで、グラフィックを描画できる  
 canvas への描画は、canvas のコンテキスト経由で行う  
@@ -38,14 +36,13 @@ const gameCanvas = document.getElementById("game"); // canvas要素を取得
 const gameCtx = gameCanvas.getContext("2d"); // canvasコンテキストを取得(2次元要素)
 ```
 
-[
-
 ##### フィールドの準備
 
 20 行(22 行) × 10 列のフィールドを用意する。
 
 - field の縦について、row 番号で最上部は 0(-2)、最下部が 19 となる
 - field の横について、col 番号で左端が 0、右端が 9 となる
+- field の 1 マスをセルと呼ぶことにする
 
 ```js
 // playfieldを描画
@@ -58,7 +55,7 @@ for (let row = -2; row < 20; row++) {
 }
 ```
 
-#### ブロックについて
+#### ブロック
 
 ##### ブロックの定義
 
@@ -130,7 +127,7 @@ const colors = {
 };
 ```
 
-#### アニメーション動作について
+#### アニメーション動作
 
 ブラウザでアニメーションを実行させるために、`requestAnimationFrame`を採用する  
 多くの某ゲームを作るサンプルでは`setInterval`と`setTimeout`を使って描画のタイミングを操るようにしているが、簡単に記述できることを重視した結果、`requestAnimationFrame`で描画タイミングを操る
@@ -211,7 +208,7 @@ function drawTetromino(tetromino, ctx) {
 ##### ブロックが動くかどうかの判定
 
 canMove 関数(true/false を返す)を使って、ブロックが動かせるかどうかを判定する  
-loop 内で`tetromino.row++`で 1 段落とすタイミングで、動かせるかどうかを check する
+loop 内で`tetromino.row++`で 1 段落としたタイミングで、動かせるかどうかを check する
 
 ```js
 // テトロミノが動かせるかどうかを確認
@@ -237,6 +234,8 @@ function canMove(matrix, cellRow, cellCol) {
 
 function loop() {
   if (tetromino) {
+    // フレーム処理の諸々
+    tetromino.row++;
     // テトロミノが設置された(動かなくなった)とき
     // false = 動けなくなった場合に placeTetromino() を呼ぶ
     if (!canMove(tetromino.matrix, tetromino.row, tetromino.col)) {
@@ -244,5 +243,148 @@ function loop() {
       placeTetromino();
     }
   }
+}
+```
+
+##### ブロックの設置
+
+上述で説明したとおり、ブロックが動かなくなった場合に `placeTetromino` 関数で呼び出す  
+対象ブロックの二次元配列を行/列ごとに for 文を回して、1 が存在した場合(定義が 0 or 1 なので)に、ゲームオーバーなのか、対象セルにブロックが持つ名前要素で上書きする  
+(例: I 型であれば、対象セルに`I`文字を入力)
+
+```js
+// テトロミノが積まれた時の関数
+function placeTetromino() {
+  for (let row = 0; row < tetromino.matrix.length; row++) {
+    for (let col = 0; col < tetromino.matrix[row].length; col++) {
+      if (tetromino.matrix[row][col]) {
+        // ゲームオーバーかどうかを確認
+        // tetromino.rowが現在のy軸のポジション値となるので、枠外のポジションにあるとマイナスの値を取る
+        if (tetromino.row + row < 0) {
+          return showGameOver();
+        }
+
+        // 初期値が0のplayfield上のブロックの現在位置 + dx/dyに設置されたブロックの名称を上書き
+        playfield[tetromino.row + row][tetromino.col + col] = tetromino.name;
+      }
+    }
+  }
+
+  // 消す処理
+}
+```
+
+##### ライン一致判定
+
+ブロックが設置されたら、設置されたブロックによって、ラインが揃ったかどうかの判定を行う
+
+- `playfield.length -1`を使うことで、playfield の底辺から順に check していく
+- カラムのチェックは配列に用意されている`every()`メソッドと、評価式にアロー関数を用意して、対象行の全ての要素が 0 以外である場合にラインを消す処理を行う
+
+```js
+function placeTetromino() {
+  // ブロックの設置処理云々
+
+  // 消す処理
+  // 下から上に向かって揃ったラインを確認する
+  for (let row = playfield.length - 1; row >= 0; ) {
+    // 0以外であればtrueを返す(積まれているセルは文字で上書きされているため)
+    if (playfield[row].every((cell) => cell)) {
+      lineCount++; // 消されたライン数のカウントアップ
+      // 消されたラインより上を下にずらす
+      for (let r = row; r >= 0; r--) {
+        for (let c = 0; c < playfield[r].length; c++) {
+          playfield[r][c] = playfield[r - 1][c];
+        }
+      }
+      // 0であれば1行上を確認できるようにrow自体に-1を行う
+    } else {
+      row--;
+    }
+  }
+
+  calculateScore(lineCount); // 消したライン数をもとに得点を計算
+  tetromino = getNextTetromino(); // playfieldに描くために待ち配列 or 待ち配列からブロックを取得
+  nextmino = getAfterNextTetromino(); // nextfieldにブロックを描画するために待ち配列 or 待ち配列からブロックを取得
+}
+```
+
+#### 待ち配列
+
+ブロックの設置が終わったら、次のブロックが落ちてくる  
+この処理を実現するために、次のブロックを準備するための配列を用意しておく
+
+##### 待ち配列の作成
+
+- 待ち配列を `tetrominoSequence`とする
+- tetrominoSequence はゲーム開始時に初期値 0 を入れているため、配列の長さが 0 の場合の処理を入れる
+- 乱数生成(`getRandomInt`)方法は、某ブロックゲームのガイドラインに乗っ取って重複がない方法を選択
+  - いわゆる `0 < x < 1の小数点に欲しい乱数の長さを乗算` はやらない
+  - [参考 link](https://pisuke-code.com/js-create-non-overlap-randoms/)
+
+```js
+// 乱数生成
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// テトロミノの中から重複しないように乱数を生成し、順番待ちListへ投入
+// https://tetris.fandom.com/wiki/Random_Generator
+function generateSequence() {
+  // tetrominos定義のkey配列を取得
+  const sequence = Object.keys(tetrominos);
+  // tetrominos key配列の長さ分繰り返す
+  while (sequence.length) {
+    // getRandomIntを呼び出して、返り値をrandに代入(randは整数)
+    const rand = getRandomInt(0, sequence.length - 1);
+    // splice()メソッドでrandの値から1つの要素を取り除く(取り除いた時に配列で返ってくるので[0]を記載し、要素に変換)
+    const name = sequence.splice(rand, 1)[0];
+    // tetrominoSequence配列の末尾に取得した要素名("I"とか"J"とか)を追加する
+    tetrominoSequence.push(name);
+  }
+}
+
+// 順番待ちListから次のテトロミノを取得する
+function getNextTetromino() {
+  // ゲーム開始直後はtetrominoSequenceは初期値0のため、この処理を入れる
+  if (tetrominoSequence.length === 0) {
+    generateSequence();
+  }
+  // ブロックの取得(以下記載)
+}
+```
+
+##### 待ち配列からブロックを取得
+
+- ブロックを取り出す際は、某ブロックゲームのガイドラインに乗っ取って、1 順中に重複なく取り出す方式にする
+  - そのため作った待ち配列から要素を取り出す際は、破壊的メソッドの`pop`を利用する
+
+```js
+// 順番待ちListから次のテトロミノを取得する
+function getNextTetromino() {
+  // ゲーム開始直後はtetrominoSequenceは初期値0のため、この処理を入れる
+  if (tetrominoSequence.length === 0) {
+    generateSequence();
+  }
+
+  // tetrominoSequenceの配列の最後の要素を取り出す(破壊的に取り出す)
+  const nextMinoName = tetrominoSequence.pop();
+  // 定義した二次元配列のkey-valueのtetrominosから文字列を元にmatrixに代入
+  const matrix = tetrominos[nextMinoName];
+
+  // スタート列数の設定: I型とO型は中央配置でスタート、それ以外は1マス左寄せ
+  // I型とO型は配列の横幅が偶数で、その他は3の奇数
+  // またMatch.ceilにより小数点以下切り上げ対応にするため
+  const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
+  // スタート行数の設定: I型であれば-1行目からスタート、それ以外は-2行目からスタート
+  // 3項演算子で記述
+  const row = nextMinoName === "I" ? -1 : -2;
+
+  return {
+    name: nextMinoName, // テトロミノブロックの名前
+    matrix: matrix, // 現在の2次元配列の状態
+    row: row, // 現在の行数(ここではブロックの初期位置となる)
+    col: col, // 現在の列数(ここではブロックの初期位置となる)
+  };
 }
 ```

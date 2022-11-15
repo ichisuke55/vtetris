@@ -96,7 +96,7 @@
       // テトロミノの中から重複しないように乱数を生成し、順番待ちListへ投入
       // https://tetris.fandom.com/wiki/Random_Generator
       function generateSequence() {
-        const sequence = ["I", "J", "L", "O", "S", "T", "Z"];
+        const sequence = Object.keys(tetrominos);
         while (sequence.length) {
           const rand = getRandomInt(0, sequence.length - 1);
           const name = sequence.splice(rand, 1)[0];
@@ -143,7 +143,11 @@
 
       // テトロミノを描画する
       function drawTetromino(tetromino, ctx) {
-        ctx.fillStyle = colors[tetromino.name];
+        if (tetromino.name in colors) {
+          ctx.fillStyle = colors[tetromino.name];
+        } else {
+          ctx.fillStyle = defaultColor;
+        }
         for (let row = 0; row < tetromino.matrix.length; row++) {
           for (let col = 0; col < tetromino.matrix[row].length; col++) {
             if (tetromino.matrix[row][col]) {
@@ -165,7 +169,11 @@
           for (let col = 0; col < c; col++) {
             if (field[row][col]) {
               const name = field[row][col];
-              ctx.fillStyle = colors[name];
+              if (name in colors) {
+                ctx.fillStyle = colors[name];
+              } else {
+                ctx.fillStyle = defaultColor;
+              }
               // 指定したgrid分を乗算して描画
               ctx.fillRect(col * grid, row * grid, grid - 1, grid - 1);
             }
@@ -221,7 +229,8 @@
 
         // したから上に向かって揃ったラインを確認する
         for (let row = playfield.length - 1; row >= 0; ) {
-          if (playfield[row].every((cell) => !!cell)) {
+          if (playfield[row].every((cell) => cell)) {
+            console.log(playfield[row]);
             lineCount++; // 消されたライン数のカウント
             // 消されたラインより上を下にずらす
             for (let r = row; r >= 0; r--) {
@@ -283,6 +292,7 @@
       const nextCtx = nextCanvas.getContext("2d");
       const grid = 32;
       const tetrominoSequence = [];
+      const defaultColor = "white";
 
       // gameCanvasに描画されるplayfieldを設定
       // いくつかのテトリミノは画面外をスタート位置にしているので、画面外(row = -2)も描画
@@ -378,7 +388,6 @@
         if (tetromino) {
           // テトロミノを35フレームで落下させる
           if (++dropCount >= 35) {
-            console.log(dropCount);
             tetromino.row++;
             dropCount = 0;
 
