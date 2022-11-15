@@ -181,6 +181,7 @@ drawTetromino(tetromino, gameCtx); // 以下ブロックの描画で説明
 ##### ブロックの描画
 
 `drawTetromino`関数で、取得したブロックとゲームフィールドコンテキストから、描画する
+この関数は、ゲームプレイの`loop`の中で呼んでおり、マイフレーム毎に落ちてくるブロックを描画するのに利用する
 
 ```js
 // ブロックを描画する
@@ -197,6 +198,38 @@ function drawTetromino(tetromino, ctx) {
           grid - 1, // 幅 32-1=31(1引かないと全て色で塗りつぶされる)
           grid - 1 // 高さ 32-1=31(1引かないと全て色で塗りつぶされる)
         );
+      }
+    }
+  }
+}
+```
+
+##### フィールドの描画
+
+積まれたブロックを含めた playfield の描画には`drawField`関数を利用する  
+この関数は、ゲームプレイの`loop`の中で呼んでおり、マイフレーム毎に落ちてくるブロックを描画するのに利用する
+
+```js
+// fieldを描画
+// r: 行の最大値, c: 列の最大値を元にfieldを描画する
+function drawField(ctx, field, r, c) {
+  for (let row = 0; row < r; row++) {
+    for (let col = 0; col < c; col++) {
+      // field内の対象セルにおいて、0以外の場合にmatch
+      if (field[row][col]) {
+        // 対象セルに書き込まれている文字列をname変数に代入
+        const name = field[row][col];
+        // nameに代入された文字がcolors配列に存在しているかチェック
+        if (name in colors) {
+          // 存在すれば、指定した色を用いでセルの内側を塗りつぶす
+          ctx.fillStyle = colors[name];
+        } else {
+          // なければdefaultColorで指定した値にセルの内側を塗りつぶす
+          ctx.fillStyle = defaultColor;
+        }
+        // 指定したgrid分を乗算して描画
+        // 塗りつぶしたセルを描画する(-1しないと、セル全部が塗りつぶされて隣との境界がわからないため)
+        ctx.fillRect(col * grid, row * grid, grid - 1, grid - 1);
       }
     }
   }
@@ -386,5 +419,133 @@ function getNextTetromino() {
     row: row, // 現在の行数(ここではブロックの初期位置となる)
     col: col, // 現在の列数(ここではブロックの初期位置となる)
   };
+}
+```
+
+#### キー操作
+
+落ちてくるブロックを動かすために、左右のキーを用いて、右/左に動かせるようにする
+
+##### キー入力
+
+キー入力のイベントを把握するために、`addEventListener`を利用する  
+[参考 link](https://developer.mozilla.org/ja/docs/Web/API/Element/keydown_event)
+`keydown`組込みイベントを`e`として関数内で処理する
+
+```js
+// キーボード入力イベントのリッスン
+document.addEventListener("keydown", function (e) {
+  // なんらかの処理
+}
+```
+
+##### キーの種類
+
+以下のキーを今回は利用する
+
+|     key      | keycode | description                    |
+| :----------: | :-----: | :----------------------------- |
+|    右キー    |   39    | ブロックを右に動かす           |
+|    左キー    |   37    | ブロックを左に動かす           |
+|    下キー    |   40    | ブロックを 1 行分落下させる    |
+|    上キー    |   38    | ブロックを一番下まで落下させる |
+| スペースキー |   32    | ブロックを時計回りに回転させる |
+
+##### キーごとのハンドリング
+
+switch 分を使って、押されたキー毎に処理を記述する  
+`which`プロパティを使うことで、押されたキーコードを読むことが可能  
+[参考 link](https://developer.mozilla.org/ja/docs/Web/API/UIEvent/which)
+
+```js
+// キーボード入力イベントのリッスン
+document.addEventListener("keydown", function (e) {
+  // ゲームオーバーとpause時はkeydown event無効
+  if (isGameOver) return;
+  if (isPause) return;
+
+  switch (e.which) {
+    // 左、右キー (移動)
+    case 37: // 左キー
+    case 39: // 右キー
+      // 3項演算子を使って左キーが押されたら、tetromino.col - 1、
+      // 右キーが押されたら、tetromino.col + 1を行う
+      const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
+      // 動かした位置でまだブロックが動かせるかどうかをcanMove関数で確認
+      if (canMove(tetromino.matrix, tetromino.row, col)) {
+        // 動かせる場合は、tetromino.colに動かした位置(col)を代入して、switchを抜ける
+        tetromino.col = col;
+      }
+      break;
+
+    case 32: // スペースキー(回転)
+      // ブロックが持つ二次元配列データをrotate関数に渡す
+      const matrix = rotate(tetromino.matrix);
+      // 動かした位置でまだブロックが動かせるかどうかをcanMove関数で確認
+      if (canMove(matrix, tetromino.row, tetromino.col)) {
+        // 動かせる場合は、tetromino.matrixに回転させた値(matrix)を代入して、switchを抜ける
+        tetromino.matrix = matrix;
+      }
+      break;
+
+    case 40: // 下キー(落下)
+      // 現在のブロックの行数に+1(下に落とすので)する
+      const row = tetromino.row + 1;
+      // 動かした位置でまだブロックが動かせるかどうかをcanMove関数で確認
+      if (!canMove(tetromino.matrix, row, tetromino.col)) {
+        // 動かせない場合は、rowの値を元に戻して、ブロック設置関数のplaceTetrominoを呼び出す
+        tetromino.row = row - 1;
+        placeTetromino();
+        return;
+      }
+      // 動かせる場合は、tetromino.rowに動かした位置(row)を代入して、switchを抜ける
+      tetromino.row = row;
+      break;
+
+    case 38: // 上キー(ハードドロップ)
+      // canMoveがtrue = 動かせるまでずっとtetromino.rowに+1を続ける
+      while (canMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+        tetromino.row++;
+      }
+      // 動かせない場合はswitchを抜ける
+      break;
+  }
+});
+```
+
+##### 回転
+
+ブロックが持つ二次元配列の値を時計回りに 90 度回転させる`rotate`関するを用意する  
+[参考 link](https://zenn.dev/kanoi/articles/f3a86f99cdce44)
+
+```js
+// 90度時計回りに回転
+// https://codereview.stackexchange.com/a/186834
+function rotate(matrix) {
+  const N = matrix.length - 1;
+  const result = matrix.map((row, i) => row.map((col, j) => matrix[N - j][i]));
+  return result;
+}
+```
+
+上の処理はアロー関数と map を nested で使ってわかりづらさこの上ないので、以下の例だとわかりやすいと思う  
+真面目に処理の内容を書くとこうなる  
+[参考 link](http://blog.livedoor.jp/unahide/archives/53129593.html)
+
+```js
+function rotate(matrix) {
+  const N = matrix.length - 1;
+  let result = [];
+  // 行数をforで回す
+  for (let i = 0; i < matrix.length; i++) {
+    // 渡されたブロック行数分の二次元配列を用意
+    result[i] = [];
+    // 列数をforで回す
+    for (let j = 0; j < matrix[0].length; j++) {
+      //
+      result[i][j] = matrix[N - j][i];
+    }
+  }
+  return result;
 }
 ```
