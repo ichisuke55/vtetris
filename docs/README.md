@@ -20,6 +20,8 @@ CoderDojo @田町で利用する、ブロックが落ちてくるゲームに関
 
 ### 詳細仕様
 
+### Basic
+
 #### フィールド
 
 フィールドの大きさは 20 行 × 10 列とする  
@@ -29,7 +31,7 @@ CoderDojo @田町で利用する、ブロックが落ちてくるゲームに関
 
 HTML の canvas 要素と JavaScript の Canvas API を使うことで、グラフィックを描画できる  
 canvas への描画は、canvas のコンテキスト経由で行う  
-参考 link](https://developer.mozilla.org/ja/docs/Web/API/Canvas_API)
+[参考 link](https://developer.mozilla.org/ja/docs/Web/API/Canvas_API)
 
 ```js
 const gameCanvas = document.getElementById("game"); // canvas要素を取得
@@ -429,7 +431,7 @@ function getNextTetromino() {
 ##### キー入力
 
 キー入力のイベントを把握するために、`addEventListener`を利用する  
-[参考 link](https://developer.mozilla.org/ja/docs/Web/API/Element/keydown_event)
+[参考 link](https://developer.mozilla.org/ja/docs/Web/API/Element/keydown_event)  
 `keydown`組込みイベントを`e`として関数内で処理する
 
 ```js
@@ -547,5 +549,42 @@ function rotate(matrix) {
     }
   }
   return result;
+}
+```
+
+### Advance
+
+#### スコア
+
+##### スコアの計算
+
+スコアは消したライン数に 100 を掛けた数をスコアとする  
+そのため、消したライン数を保存/計算できるようにしておく必要がある
+
+```js
+// 消したライン数を保存する変数の宣言
+let lineCount = 0;
+// スコアの値を保存する変数の宣言
+let scoreResult = 0;
+
+// テトロミノが積まれた時の関数
+function placeTetromino() {
+  // 下から上に向かって揃ったライン数を確認する
+  for (let row = playfield.length - 1; row >= 0; ) {
+    if (playfield[row].every((cell) => cell)) {
+      // everyメソッドで対象行が全て0以外となっていることを確認することでラインが揃ったと判定
+      lineCount++; // 消されたライン数のカウント
+      // 消されたラインより上を下にずらす処理等
+    }
+  }
+  // lineCountを引数にcalculateScore関数を呼び出す
+  calculateScore(lineCount);
+}
+
+// 消されたライン数に応じてスコアを乗算
+function calculateScore(c) {
+  scoreResult = c * 100;
+  // HTML側のtagを検索して更新したスコア情報で上書きする
+  document.getElementById("score-count").innerHTML = scoreResult;
 }
 ```

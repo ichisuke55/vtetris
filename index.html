@@ -227,10 +227,9 @@
           }
         }
 
-        // したから上に向かって揃ったラインを確認する
+        // 下から上に向かって揃ったラインを確認する
         for (let row = playfield.length - 1; row >= 0; ) {
           if (playfield[row].every((cell) => cell)) {
-            console.log(playfield[row]);
             lineCount++; // 消されたライン数のカウント
             // 消されたラインより上を下にずらす
             for (let r = row; r >= 0; r--) {
