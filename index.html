@@ -53,19 +53,19 @@
         align-items: center;
         justify-content: center;
       }
+
+      .rightColumn {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
     </style>
   </head>
   <body>
     <div class="main">
       <h1>
-        <div class="docs">vTetris</div>
-        <div class="docs">@CoderDojo Tamachi</div>
+        <div class="docs">vTetris CoderDojo Tamachi</div>
       </h1>
-      <div class="scoreResult">
-        <div class="score">Score:</div>
-        <div class="score" id="score-count">0</div>
-      </div>
-      <br />
       <div class="button">
         <span class="start-button">
           <button type="button" id="start-button">START</button>
@@ -80,10 +80,21 @@
       <br />
       <div class="board">
         <canvas width="320" height="640" id="game"></canvas>
-        <canvas width="160" height="160" id="next"></canvas>
+        <div class="rightColumn">
+          <canvas width="160" height="160" id="next"></canvas>
+          <br />
+          <div class="scoreResult">
+            <div class="score">Score:</div>
+            <div class="score" id="score-count">0</div>
+          </div>
+          <br />
+          <div class="instructions">
+            <p class="docs">左右キー: 移動</p>
+            <p class="docs">スペースキー: 回転</p>
+            <p class="docs">上キー: ハードドロップ</p>
+          </div>
+        </div>
       </div>
-      <p class="docs">左右キー: 移動 / スペースキー: 回転</p>
-      <p class="docs">上キー: ハードドロップ</p>
     </div>
     <script>
       // テトリスガイドライン https://tetris.fandom.com/wiki/Tetris_Guideline
@@ -151,7 +162,6 @@
         for (let row = 0; row < tetromino.matrix.length; row++) {
           for (let col = 0; col < tetromino.matrix[row].length; col++) {
             if (tetromino.matrix[row][col]) {
-              // drawing 1 px smaller than the grid creates a grid effect
               ctx.fillRect(
                 (tetromino.col + col) * grid,
                 (tetromino.row + row) * grid,
@@ -371,8 +381,9 @@
       let lineCount = 0; // 消したライン合計数
       let scoreResult = 0; // スコアの合計数
       let bgm = new Audio(
-        "https://drive.google.com/uc?id=1og-AiVMMueor0UnnD-mQNmVIPdMXHraC"
+        "https://drive.google.com/uc?id=1oiDiUZIGqQVO4YAuzZzSYcTwjOTVJW9L"
       );
+      bgm.volume = 0.1; // 音量を裁定まで下げる
 
       // ゲームオーバーまでループ
       function loop() {
