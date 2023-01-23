@@ -1,0 +1,55 @@
+body {
+  background-size: cover;
+  background-image: url(https://drive.google.com/uc?id=1ba7F7AFCS8hVZOAlxg6YljgDBIp7iiX4);
+}
+
+.main {
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+canvas {
+  border: 2px solid white;
+}
+
+.docs {
+  font-family: monospace;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.score {
+  font-size: 20px;
+  font-family: monospace;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreResult {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}

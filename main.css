@@ -1,0 +1,10 @@
+.main {
+  align-items: center;
+  justify-content: center;
+}
+
+.board {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

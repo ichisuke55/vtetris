@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>vTetris</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="main">
+      <h1>
+        <div class="docs">vTetris CoderDojo Tamachi</div>
+      </h1>
+      <div class="button">
+        <span class="start-button">
+          <button type="button" id="start-button">START</button>
+        </span>
+        <span class="stop-button">
+          <button type="button" id="stop-button" disabled>STOP</button>
+        </span>
+        <span class="refresh-button">
+          <button type="button" id="refresh-button">REFRESH</button>
+        </span>
+      </div>
+      <br />
+      <div class="board">
+        <canvas width="320" height="640" id="game"></canvas>
+        <div class="rightColumn">
+          <canvas width="160" height="160" id="next"></canvas>
+          <br />
+          <div class="scoreResult">
+            <div class="score">Score:</div>
+            <div class="score" id="score-count">0</div>
+          </div>
+          <br />
+          <div class="instructions">
+            <p class="docs">左右キー: 移動</p>
+            <p class="docs">スペースキー: 回転</p>
+            <p class="docs">上キー: ハードドロップ</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>

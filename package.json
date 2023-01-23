@@ -1,19 +1,28 @@
 {
-  "name": "tetris-v1",
+  "name": "tetris-v2",
   "version": "1.0.0",
-  "description": "",
+  "description": "vTetris for local",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "ichisuke55",
   "license": "ISC",
   "dependencies": {
+    "@eslint/eslintrc": "^1.4.1",
     "@types/google-apps-script": "^1.0.56",
     "docsify-cli": "^4.4.4"
   },
   "devDependencies": {
     "eslint": "^8.27.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ichisuke55/vtetris.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ichisuke55/vtetris/issues"
+  },
+  "homepage": "https://github.com/ichisuke55/vtetris#readme"
 }

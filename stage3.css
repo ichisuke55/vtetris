@@ -1,0 +1,13 @@
+body {
+  background-size: cover;
+  background: black;
+  /*
+  参考サイト: https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Backgrounds_and_Borders/Resizing_background_images
+  参考サイト: https://tonari-it.com/gas-web-html-img-drive/
+  ファイル設置場所: https://drive.google.com/drive/u/0/folders/1pWyJzsvz0xxmq7DZJvpARj5ALDhgacl2
+  */
+}
+
+canvas {
+  border: 2px solid white;
+}

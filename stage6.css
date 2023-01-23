@@ -1,0 +1,13 @@
+/*
+ここにHTMLを書く(タグは以下に記載のexplainTextを利用する)
+<参考: https://developer.mozilla.org/ja/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals
+*/
+
+// explainText classを変更して、文字を装飾してみよう
+.explainText {
+  font-family: monospace;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
