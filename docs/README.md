@@ -588,3 +588,39 @@ function calculateScore(c) {
   document.getElementById("score-count").innerHTML = scoreResult;
 }
 ```
+
+#### BGM
+
+BGM は AutoPlay だと流れないため、ゲームスタートボタンを押すタイミングで流れるように実装
+[参考](https://developer.mozilla.org/ja/docs/Web/Media/Autoplay_guide)
+
+```js
+// Audioインスタンス作成
+let bgm = new Audio(
+  "https://drive.google.com/uc?id=1oiDiUZIGqQVO4YAuzZzSYcTwjOTVJW9L"
+);
+bgm.volume = 0.1; // 音量を裁定まで下げる(デフォルトだと大分うるさい)
+
+// STARTボタン押下時の動作
+document.getElementById("start-button").onclick = function () {
+  // 色々処理
+  // bgmを流す
+  bgm.play();
+};
+```
+
+また、STOP 時には BGM を止め、REFRESH 時には BGM の停止と再生位置を初期値に戻すことで START 時に再度 BGM が最初から流れるように実装している
+
+```js
+// STOPボタン押下時の動作
+document.getElementById("stop-button").onclick = function () {
+  // 色々処理
+  bgm.pause();
+};
+
+// REFRESHボタン押下時の動作
+document.getElementById("refresh-button").onclick = function () {
+  bgm.pause();
+  bgm.currentTime = 0;
+};
+```
