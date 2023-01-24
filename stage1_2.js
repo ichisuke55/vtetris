@@ -1,6 +1,6 @@
 // テトロミノの色を設定
 const colors = {
-  O: "white",
+  O: "blue",
   T: "white",
 };
 // 参考サイト: https://www.colordic.org/
