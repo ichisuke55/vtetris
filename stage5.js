@@ -4,11 +4,12 @@
 // キーボード入力イベントのリッスン
 document.addEventListener("keydown", function (e) {
   if (isGameOver) return;
-  switch (e.key) {
+  switch (e.code) {
     // 左、右キー (移動)
     case "ArrowLeft":
     case "ArrowRight":
-      const col = e.key === "ArrowLeft" ? tetromino.col - 1 : tetromino.col + 1;
+      const col =
+        e.code === "ArrowLeft" ? tetromino.col - 1 : tetromino.col + 1;
       if (canMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
       }
