@@ -376,9 +376,6 @@ document.getElementById("start-button").onclick = function () {
   rAF = requestAnimationFrame(loop);
   // bgmを流す
   bgm.play();
-  bgm.addEventListener("ended", function () {
-    bgp.play();
-  });
 };
 
 // REFRESHボタン押下時の動作

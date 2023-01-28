@@ -4,16 +4,17 @@
 // キーボード入力イベントのリッスン
 document.addEventListener("keydown", function (e) {
   if (isGameOver) return;
-  switch (e.which) {
+  switch (e.code) {
     // 左、右キー (移動)
-    case 37:
-    case 39:
-      const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
+    case "ArrowLeft":
+    case "ArrowRight":
+      const col =
+        e.code === "ArrowLeft" ? tetromino.col - 1 : tetromino.col + 1;
       if (canMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
       }
       break;
-    case 40: // 下キー(落下)
+    case "ArrowDown": // 下キー(落下)
       const row = tetromino.row + 1;
       if (!canMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row = row - 1;
@@ -22,7 +23,7 @@ document.addEventListener("keydown", function (e) {
       }
       tetromino.row = row;
       break;
-    case 38: // 上キー(ハードドロップ)
+    case "ArrowUp": // 上キー(ハードドロップ)
       while (canMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
         tetromino.row++;
       }

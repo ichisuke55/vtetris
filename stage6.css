@@ -3,7 +3,11 @@
 <参考: https://developer.mozilla.org/ja/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals
 */
 
-/* explainText classを変更して、文字を装飾してみよう*/
+<<<<<<< HEAD
+/* explainText classを変更して、文字を装飾してみよう */
+=======
+/* explainText classを変更して、文字を装飾してみよう */
+>>>>>>> 5bc94ebccea3cb93e1f2707fc23b747d25d56a48
 .explainText {
   font-family: monospace;
   color: white;
@@ -11,4 +15,6 @@
   align-items: center;
   justify-content: center;
 }
-
+<<<<<<< HEAD
+=======
+>>>>>>> 5bc94ebccea3cb93e1f2707fc23b747d25d56a48
