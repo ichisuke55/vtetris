@@ -1,10 +1,10 @@
+/*document.getElementById('bgm-play').addEventListener('click', () => {
 let bgm = new Audio(
   "https://drive.google.com/uc?id=1oiDiUZIGqQVO4YAuzZzSYcTwjOTVJW9L"
 );
 
 bgm.volume = 0.1;
 
-/*document.getElementById('bgm-play').addEventListener('click', () => {
     bgm.play();
 });*/
 
@@ -12,5 +12,9 @@ bgm.volume = 0.1;
 let myAudio = document.getElementById("myAudio");
 
 function togglePlay() {
-  return myAudio.paused ? myAudio.play() : myAudio.pause();
+  if(myAudio.paused){
+    myAudio.play();
+  }else{
+    myAudio.pause();
+  }
 };
