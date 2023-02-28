@@ -116,7 +116,7 @@ function placeTetromino() {
   // したから上に向かって揃ったラインを確認する
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every((cell) => !!cell)) {
-      lineCount++; // 消されたライン数のカウント
+      // 消されたライン数のカウント
       // 消されたラインより上を下にずらす
       for (let r = row; r >= 0; r--) {
         for (let c = 0; c < playfield[r].length; c++) {
@@ -129,7 +129,6 @@ function placeTetromino() {
   }
 
   //stage7
-  calculateScore(lineCount);
 
   tetromino = getNextTetromino();
 }
@@ -163,7 +162,7 @@ let rAF = null;
 let isGameOver = false;
 
 //stage7
-let lineCount = 0; // 消したライン合計数
+// 消したライン合計数
 let scoreResult = 0; // スコアの合計数
 
 // start
