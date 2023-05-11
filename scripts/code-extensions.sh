@@ -1,5 +1,4 @@
 code --install-extension bpruitt-goddard.mermaid-markdown-syntax-highlighting
-code --install-extension dbaeumer.jshint
 code --install-extension ecmel.vscode-html-css
 code --install-extension esbenp.prettier-vscode
 code --install-extension george-alisson.html-preview-vscode
