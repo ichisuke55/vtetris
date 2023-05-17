@@ -1,4 +1,5 @@
 code --install-extension bpruitt-goddard.mermaid-markdown-syntax-highlighting
+code --install-extension dbaeumer.jshint
 code --install-extension ecmel.vscode-html-css
 code --install-extension esbenp.prettier-vscode
 code --install-extension george-alisson.html-preview-vscode
@@ -6,5 +7,6 @@ code --install-extension mohd-akram.vscode-html-format
 code --install-extension mohsen1.prettify-json
 code --install-extension PKief.material-icon-theme
 code --install-extension quicktype.quicktype
+code --install-extension streetsidesoftware.code-spell-checker
 code --install-extension vscode-icons-team.vscode-icons
 code --install-extension ZainChen.json
