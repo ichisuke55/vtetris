@@ -317,21 +317,25 @@ document.addEventListener("keydown", function (e) {
   switch (e.which) {
     // 左、右キー (移動)
     case 37:
-    case 39:
+    case 39: {
       const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
       if (canMove(tetromino.matrix, tetromino.row, col)) {
         tetromino.col = col;
       }
       break;
+    }
 
-    case 32: // スペースキー(回転)
+    case 32: {
+      // スペースキー(回転)
       const matrix = rotate(tetromino.matrix);
       if (canMove(matrix, tetromino.row, tetromino.col)) {
         tetromino.matrix = matrix;
       }
       break;
+    }
 
-    case 40: // 下キー(落下)
+    case 40: {
+      // 下キー(落下)
       const row = tetromino.row + 1;
       if (!canMove(tetromino.matrix, row, tetromino.col)) {
         tetromino.row = row - 1;
@@ -340,12 +344,15 @@ document.addEventListener("keydown", function (e) {
       }
       tetromino.row = row;
       break;
+    }
 
-    case 38: // 上キー(ハードドロップ)
+    case 38: {
+      // 上キー(ハードドロップ)
       while (canMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
         tetromino.row++;
       }
       break;
+    }
   }
 });
 
