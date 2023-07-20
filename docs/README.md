@@ -1,7 +1,10 @@
 # CoderDojo Tamachi@VMware
 
-## ご参加いただいた方へ
+## CoderDojo
 
-```pdf
-./programming_at_home.pdf
-```
+- [CoderDojo とは](https://coderdojo.jp/)
+- [CoderDojo Tamachi@VMware](https://zen.coderdojo.com/dojos/jp/minato-tokyo/tamachi-vmware)
+
+## VMware Blog
+
+- [第一回活動レポート](https://blogs.vmware.com/vmware-japan/2023/02/programing-lesson.html)
