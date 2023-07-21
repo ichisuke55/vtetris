@@ -1,5 +1,3 @@
 # Scratch 教材
 
-```pdf
-./files/scratch.pdf
-```
+<embed src="./web/viewer.html?file=embed-files/scratch.pdf" height=800px; width=100%>

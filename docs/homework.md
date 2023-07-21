@@ -1,5 +1,3 @@
 # ご自宅でもプログラミング
 
-```pdf
-./files/programming_at_home.pdf
-```
+<embed src="./web/viewer.html?file=embed-files/programming_at_home.pdf" height=800px; width=100%>

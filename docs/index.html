@@ -10,13 +10,16 @@
       content="width=device-width, initial-scale=1.0, minimum-scale=1.0"
     />
     <link rel="icon" href="./media/favicon.ico" />
-    <link
+    <!-- <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css"
+    /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"
     />
     <style>
-      .content {
-        overflow: auto;
+      :root {
       }
     </style>
   </head>
@@ -24,17 +27,20 @@
     <div id="app"></div>
     <script>
       window.$docsify = {
-        repo: "",
+        repo: "https://github.com/ichisuke55/vtetris",
         loadSidebar: true,
         coverpage: true,
         onlyCover: false,
       };
     </script>
     <!-- Docsify v4 -->
-    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="https:////cdn.jsdelivr.net/npm/docsify@4"></script>
+    <!-- docsify-themeable -->
+    <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
+
     <!-- PDFObject.js is a required dependency of this plugin -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script>
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/pdfobject/2.1.1/pdfobject.min.js"></script> -->
     <!-- This is the source code of the pdf embed plugin -->
-    <script src="//unpkg.com/docsify-pdf-embed-plugin/src/docsify-pdf-embed.js"></script>
+    <!-- <script src="//unpkg.com/docsify-pdf-embed-plugin/src/docsify-pdf-embed.js"></script> -->
   </body>
 </html>
