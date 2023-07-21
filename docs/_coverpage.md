@@ -1,4 +1,4 @@
-![](media/build_leaf.png ":size=300")
+![](media/leaf.png ":size=300")
 
 > CoderDojo Tamachi@VMware
 
