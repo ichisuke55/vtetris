@@ -19,3 +19,5 @@
 
 - [第一回活動レポート](https://blogs.vmware.com/vmware-japan/2023/02/programing-lesson.html)
 
+[![Twitter](https://img.shields.io/badge/Twitter-%231DA1F2.svg?style=for-the-badge&logo=Twitter&logoColor=white)](https://twitter.com/CDTamachiVMware)
+[![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?style=for-the-badge&logo=Facebook&logoColor=white)](https://www.facebook.com/people/CoderDojo-Tamachi-VMware/61551203581661/)
