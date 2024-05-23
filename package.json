@@ -15,7 +15,7 @@
     "docsify-cli": "^4.4.4"
   },
   "devDependencies": {
-    "eslint": "^8.27.0"
+    "eslint": "^9.0.0"
   },
   "repository": {
     "type": "git",
