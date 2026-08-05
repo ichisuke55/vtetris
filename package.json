@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@eslint/eslintrc": "^1.4.1",
-    "@types/google-apps-script": "^1.0.56",
+    "@types/google-apps-script": "^2.0.0",
     "docsify-cli": "^4.4.4"
   },
   "devDependencies": {
