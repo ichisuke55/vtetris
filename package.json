@@ -10,7 +10,7 @@
   "author": "ichisuke55",
   "license": "ISC",
   "dependencies": {
-    "@eslint/eslintrc": "^1.4.1",
+    "@eslint/eslintrc": "^3.0.0",
     "@types/google-apps-script": "^1.0.56",
     "docsify-cli": "^4.4.4"
   },
