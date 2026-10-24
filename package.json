@@ -12,7 +12,7 @@
   "dependencies": {
     "@eslint/eslintrc": "^1.4.1",
     "@types/google-apps-script": "^1.0.56",
-    "docsify-cli": "^4.4.4"
+    "docsify-cli": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^8.27.0"
